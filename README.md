@@ -72,10 +72,10 @@ Make SSH connections easier with a config file.
 2. **Add this configuration:**
    ```
    # Week 2 EC2 Instance
-   Host bootcamp-web
+   Host bastion
        HostName YOUR_PUBLIC_IP
        User ec2-user
-       IdentityFile ~/.ssh/bootcamp-week2-key.pem
+       IdentityFile ~/.ssh/my-second-key.pem
        ServerAliveInterval 60
        ServerAliveCountMax 3
    ```
@@ -95,13 +95,13 @@ Make SSH connections easier with a config file.
 5. **Test the new alias:**
    ```bash
    # Now you can connect with just:
-   ssh bootcamp-web
+   ssh bastion
    
    # Instead of:
-   ssh -i ~/.ssh/bootcamp-week2-key.pem ec2-user@YOUR_PUBLIC_IP
+   ssh -i ~/.ssh/my-second-key.pem ec2-user@YOUR_PUBLIC_IP
    ```
 
-**Expected outcome:** You can connect using the simple alias `ssh bootcamp-web`.
+**Expected outcome:** You can connect using the simple alias `ssh bastion`.
 
 ---
 
@@ -113,7 +113,7 @@ Now let's verify your security group is actually securing your instance.
 
 ```bash
 # This should work (your IP is allowed)
-ssh bootcamp-web
+ssh bastion
 ```
 
 **Expected:** ✅ Connection successful
@@ -129,6 +129,8 @@ open http://YOUR_PUBLIC_IP
 ```
 
 **Expected:** ✅ Returns HTTP 200 OK
+**Output:** Only retuned http 200 after changing security groups to all traffic for both inbound and outbound. 
+
 
 #### Test 3: Try Unsupported Protocol
 
@@ -138,6 +140,23 @@ ping YOUR_PUBLIC_IP
 ```
 
 **Expected:** ❌ Request timeout (this is good - ICMP is blocked!)
+**Output** Ping didnt work due to previous change of security group configuration. Changed security group from all traffic to SSH   (22)   → your IP OR 0.0.0.0/0  
+HTTP  (80)   → 0.0.0.0/0
+
+francesmacbook@unknown3252f4ac6bab ~ % ping 51.20.32.114
+PING 51.20.32.114 (51.20.32.114): 56 data bytes
+Request timeout for icmp_seq 0
+Request timeout for icmp_seq 1
+Request timeout for icmp_seq 2
+Request timeout for icmp_seq 3
+Request timeout for icmp_seq 4
+Request timeout for icmp_seq 5
+Request timeout for icmp_seq 6
+^C
+--- 51.20.32.114 ping statistics ---
+8 packets transmitted, 0 packets received, 100.0% packet loss
+
+
 
 #### Test 4: Try Blocked Port
 
@@ -149,7 +168,7 @@ nc -zv YOUR_PUBLIC_IP 3306
 ```
 
 **Expected:** ❌ Connection refused or timeout (port 3306 not allowed)
-
+**Output** Nothing to add to this one. 
 **Document your test results in a file called `security-test-results.txt`**
 
 ---

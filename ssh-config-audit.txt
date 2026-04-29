@@ -1,0 +1,28 @@
+PasswordAuthentication is explicitly set to 'no'.
+PubkeyAuthentication is enabled, as SSH key-based login is working.
+PermitRootLogin is not explicitly defined but is disabled by default in AWS.
+
+
+
+[ec2-user@ip-172-31-43-143 ~]$ sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
+[ec2-user@ip-172-31-43-143 ~]$ sudo cat /etc/ssh/sshd_config | grep -v "^#" | grep -v "^$"
+Include /etc/ssh/sshd_config.d/*.conf
+AuthorizedKeysFile      .ssh/authorized_keys
+PasswordAuthentication no
+PermitEmptyPasswords no
+Subsystem       sftp    /usr/libexec/openssh/sftp-server
+AuthorizedKeysCommand /opt/aws/bin/eic_run_authorized_keys %u %f
+AuthorizedKeysCommandUser ec2-instance-connect
+[ec2-user@ip-172-31-43-143 ~]$ grep "^PasswordAuthentication" /etc/ssh/sshd_config
+ 
+grep: /etc/ssh/sshd_config: Permission denied
+[ec2-user@ip-172-31-43-143 ~]$ grep "^PermitRootLogin" /etc/ssh/sshd_config
+grep: /etc/ssh/sshd_config: Permission denied
+[ec2-user@ip-172-31-43-143 ~]$ grep "^PubkeyAuthentication" /etc/ssh/sshd_config
+grep: /etc/ssh/sshd_config: Permission denied
+[ec2-user@ip-172-31-43-143 ~]$ sudo grep "^PasswordAuthentication" /etc/ssh/sshd_config
+PasswordAuthentication no
+[ec2-user@ip-172-31-43-143 ~]$ sudo grep "^PermitRootLogin" /etc/ssh/sshd_config
+[ec2-user@ip-172-31-43-143 ~]$ sudo grep "^PubkeyAuthentication" /etc/ssh/sshd_config
+[ec2-user@ip-172-31-43-143 ~]$ sudo grep -E "PermitRootLogin|PubkeyAuthentication" /etc/ssh/sshd_config.d/*
+grep: /etc/ssh/sshd_config.d/*: No such file or directory

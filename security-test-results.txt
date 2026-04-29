@@ -1,0 +1,9 @@
+=== HTTP Test ===
+curl -I http://51.20.32.114
+HTTP/1.1 200 OK
+[ec2-user@ip-172-31-43-143 ~]$ curl -I http://51.20.32.114 HTTP/1.1 200 OK Server: nginx/1.28.3 Date: Wed, 29 Apr 2026 08:23:19 GMT Content-Type: text/html Content-Length: 615 Last-Modified: Tue, 31 Mar 2026 20:27:53 GMT Connection: keep-alive ETag: "69cc2e49-267" Accept-Ranges: bytes
+=== ICMP Test ===
+francesmacbook@unknown3252f4ac6bab ~ % ping 51.20.32.114 PING 51.20.32.114 (51.20.32.114): 56 data bytes Request timeout for icmp_seq 0 Request timeout for icmp_seq 1 Request timeout for icmp_seq 2 Request timeout for icmp_seq 3 Request timeout for icmp_seq 4 Request timeout for icmp_seq 5 Request timeout for icmp_seq 6 ^C --- 51.20.32.114 ping statistics --- 8 packets transmitted, 0 packets received, 100.0% packet los
+=== Port 3306 Test ===
+nc -zv 51.20.32.114 3306
+Connection timed out

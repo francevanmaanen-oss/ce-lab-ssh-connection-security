@@ -1,0 +1,37 @@
+[ec2-user@ip-172-31-43-143 ~]$ echo "Hello from EC2" > ~/instance-info.txt
+[ec2-user@ip-172-31-43-143 ~]$ scp bootcamp-web:~/instance-info.txt ./downloaded-info.txt
+ssh: Could not resolve hostname bootcamp-web: Name or service not known
+Connection closed
+[ec2-user@ip-172-31-43-143 ~]$ scp bastion:~/instance-info.txt ./downloaded-info.txt
+no such identity: /home/ec2-user/Downloads/my-second-key.pem: No such file or directory
+ec2-user@51.20.32.114: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+Connection closed
+[ec2-user@ip-172-31-43-143 ~]$ exit
+logout
+Connection to 51.20.32.114 closed.
+francesmacbook@unknown3252f4ac6bab ~ % scp bastion:~/instance-info.txt ./downloaded-info.txt
+instance-info.txt                                                                                              100%   15     0.3KB/s   00:00    
+francesmacbook@unknown3252f4ac6bab ~ % cat downloaded-info.txt
+Hello from EC2
+francesmacbook@unknown3252f4ac6bab ~ % mkdir my-website
+echo "<h1>My Site</h1>" > my-website/index.html
+echo "body { background: lightblue; }" > my-website/style.css
+francesmacbook@unknown3252f4ac6bab ~ % scp -r my-website bastion:~/
+index.html                                                                                                     100%   17     0.7KB/s   00:00    
+style.css                                                                                                      100%   32     1.2KB/s   00:00    
+francesmacbook@unknown3252f4ac6bab ~ % ssh bastion 'ls -la ~/my-website/'
+total 8
+drwxr-xr-x. 2 ec2-user ec2-user  41 Apr 29 08:52 .
+drwx------. 4 ec2-user ec2-user 159 Apr 29 08:52 ..
+-rw-r--r--. 1 ec2-user ec2-user  17 Apr 29 08:52 index.html
+-rw-r--r--. 1 ec2-user ec2-user  32 Apr 29 08:52 style.css
+
+=== SCP Download ===
+scp bastion:~/instance-info.txt ./downloaded-info.txt
+
+=== Result ===
+File successfully copied
+
+=== Verification ===
+cat downloaded-info.txt
+Output: ip-172-31-43-143
